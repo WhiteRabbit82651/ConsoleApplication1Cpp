@@ -25,11 +25,29 @@ int main()
     inputData.dwID = 1;
     inputData.x = 123;
     inputData.y = 456;
-    inputData.dwFlags = TOUCHEVENTF_DOWN;
+    inputData.dwFlags = 0 | TOUCHEVENTF_DOWN;
+    LPARAM lParam;
+    WPARAM wParam;
+    wParam = 1;
 
-    LRESULT lResult = SendMessage(hWnd, WM_LBUTTONDOWN, 0, MAKELPARAM(0, 0));
-    //LRESULT lResult = SendMessage(hWnd, WM_TOUCH, 0, (LPARAM)&inputData);
+    lParam = MAKELPARAM(450, 780);
+    //LRESULT lResult = SendMessage(hWnd, WM_LBUTTONDOWN, 0, lParam);
+    //LRESULT lResult = SendMessage(hWnd, WM_TOUCH, 0, lParam);
+    //LRESULT lResult = SendMessage(hWnd, WM_TOUCH, 1, (LPARAM)&inputData);
     //LRESULT lResult = SendMessage(HWND_BROADCAST, WM_LBUTTONDOWN, 0, MAKELPARAM(0, 0));
+    //lParam = (LPARAM)&inputData;
+    //LRESULT lResult = PostMessage(hWnd, WM_TOUCH, 1, lParam);
+    //LRESULT lResult = SendMessage(hWnd, WM_POINTERDOWN, 0, lParam);
+    //LRESULT lResult = SendMessage(HWND_BROADCAST, WM_TOUCH, 1, lParam);
+
+    HTOUCHINPUT hInput;
+    hInput = (HTOUCHINPUT)lParam;
+    PTOUCHINPUT pInputs;
+    pInputs = new (std::nothrow) TOUCHINPUT[1];
+    pInputs->x = 123;
+    pInputs->y = 456;
+    hInput = (HTOUCHINPUT)pInputs;
+    LRESULT lResult = PostMessage(hWnd, WM_TOUCH, wParam, lParam);
 
     printf("lResutl = %d\t",lResult);
 
